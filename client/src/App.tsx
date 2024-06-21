@@ -1,33 +1,28 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
+import {BrowserRouter, Route, Routes} from 'react-router-dom'
+import { AppRoutes } from './core';
+import { PageLayout } from './pages';
+import { useState } from 'react';
+import { Constants } from './constants';
 
 function App() {
-  const [count, setCount] = useState(0)
-
+  const constants = Constants;
+  const localTheme = localStorage.getItem('theme');
+  const [theme,setTheme] = useState(localTheme??constants.THEMES[0]);
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<PageLayout routes={AppRoutes} theme={theme} setTheme={setTheme}/>}>
+            <Route index element={AppRoutes[0].pageElement}/>
+            {AppRoutes.slice(1).map(r=>{
+              return (
+                <Route key={r.displayName+"_Route"} path={r.routePath} element={r.pageElement}/>
+              )
+            })}
+          </Route>
+        </Routes>
+      </BrowserRouter>
     </>
   )
 }
