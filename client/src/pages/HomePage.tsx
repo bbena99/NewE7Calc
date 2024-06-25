@@ -1,7 +1,9 @@
-import { ReactNode } from "react";
 import { PageBG } from "../components";
 
-export function HomePage():ReactNode{
+interface HomePagePropsI{
+}
+export function HomePage(props:HomePagePropsI):JSX.Element{
+  const {} = props;
   return <PageBG>
     <div>
       blerb

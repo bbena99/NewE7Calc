@@ -8,7 +8,7 @@ interface NavBarPropsI{
   theme:string;
   setTheme:(t:string)=>void;
 }
-export const NavBar = (props:NavBarPropsI) => {
+export function NavBar(props:NavBarPropsI):JSX.Element {
   const {routes, theme, setTheme} = props;
   const displayRoutes = [...routes.slice(1,routes.length-2)];
   const home = routes[0];

@@ -1,4 +1,3 @@
-import { ReactNode } from "react";
 import { NavBar } from "../components";
 import { Outlet } from "react-router-dom";
 import { AppRouteI } from "../core";
@@ -8,7 +7,7 @@ interface PageLayoutPropsI{
   theme:string;
   setTheme:(t:string)=>void;
 }
-export function PageLayout(props:PageLayoutPropsI):ReactNode{
+export function PageLayout(props:PageLayoutPropsI):JSX.Element{
   const {routes, theme, setTheme}={...props}
   return (
     <>
