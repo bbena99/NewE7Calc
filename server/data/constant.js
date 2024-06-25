@@ -56,6 +56,25 @@ const charList = [
       'Effect Resistance' : 0,
       'Dual Attack Chance' : 3
     }
+  },{
+    'name' : 'New Moon Luna',
+    'nameNoSpace' : 'New-Moon-Luna',
+    'element' : 3,
+    'class' : 4,
+    'sign' : 6,
+    'engraveStat':5,
+    'engrave':[6,9,12,15,18],
+    'base_stats':{
+      'Attack'  : 1039,
+      'Defense' : 613,
+      'Health'  : 6034,
+      'Speed'   : 124,
+      'Critical Hit Chance' : 15,
+      'Critical Hit Damage' : 150,
+      'Effectiveness' : 0,
+      'Effect Resistance' : 0,
+      'Dual Attack Chance' : 3
+    }
   }
 ]
 

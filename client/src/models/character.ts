@@ -6,6 +6,11 @@ export interface Character {
   sign : number;
   engraveStat:number;
   engrave:number[];
+  engraveValue:number|undefined;
+  artifact:{
+    'Attack':number,
+    'Health':number,
+  }
   base_stats: {
     'Attack' : number;
     'Defense' : number;
@@ -39,6 +44,11 @@ export function newChar():Character{
     sign : 0,
     engraveStat:0,
     engrave:[],
+    engraveValue:undefined,
+    artifact:{
+      Attack:0,
+      Health:0
+    },
     base_stats: {
       'Attack' : 0,
       'Defense' : 0,

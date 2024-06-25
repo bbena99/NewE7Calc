@@ -11,6 +11,7 @@ import {
   faQuestion,
   faUser
 } from "@fortawesome/free-solid-svg-icons";
+import { newChar } from "../models";
 
 export interface PageProps {
   pageName:string;
@@ -27,18 +28,18 @@ export const AppRoutes: AppRouteI[] = [
     displayName:'Epic 7 Gear Calculator',
     routePath:'/',
     icon:faCalculator,
-    pageElement:HomePage()
+    pageElement:HomePage({})
   },{
     displayName:'Heroes',
     routePath:'/Heroes',
     icon:faUser,
-    pageElement:HeroPage()
+    pageElement:HeroPage({charArr:[]})
   },
   {
     displayName:':HeroName',
     routePath:'/Heroes/:HeroName',
     icon:faQuestion,
-    pageElement:GearPage()
+    pageElement:GearPage({char:newChar()})
   },
   {
     displayName:'Page Not Found',
