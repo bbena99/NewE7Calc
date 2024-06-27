@@ -1,4 +1,4 @@
-import { Card, Tooltip } from "flowbite-react";
+import { Card, Tooltip, Progress } from "flowbite-react";
 import { Gear } from "../models";
 import { Constants } from "../constants";
 
@@ -83,7 +83,7 @@ export function GearCard(props:GearCardPropsI){
         </p>
       </div>
     </div>
-    <div className="w-full h-36 flex flex-wrap flex-col justify-between">
+    <div className="w-full h-40 flex flex-wrap flex-col justify-between">
       {gear.hits.map((h,i)=>{
         return <div
           className="w-10 h-full bg-bg1 rounded-lg border-text border-2"
@@ -116,15 +116,16 @@ export function GearCard(props:GearCardPropsI){
         if(sub.value&&sub.value<minVal)sub.value=minVal
         const maxVal = Constants.STAT_ENUM[sub.stat].maxSub[gear.level]*mult;
         if(sub.value&&sub.value>maxVal)sub.value=maxVal
+        const prog = Math.floor((sub.value-minVal)/(maxVal-minVal)*100)
         return <div
           key={"sub_"+index}
-          className="h-9 flex justify-between rounded-lg border-2 border-text bg-bg1"
+          className="h-10 grid grid-cols-3 rounded-lg border-2 border-text bg-bg1 overflow-hidden"
           style={{width:"calc( 100% - 13rem )"}}
         >
           <select
             name={"gear_"+gear.id+"_sub_"+index}
             id={"gear_"+gear.id+"_sub_"+index}
-            className="!p-0 bg-transparent border-0 text-header hover:cursor-pointer focus:ring-0"
+            className="col-span-2 !p-1 bg-transparent border-0 text-header hover:cursor-pointer focus:ring-0"
             value={sub.stat}
             onChange={(e)=>{
               const newGear = {...gear};
@@ -138,7 +139,7 @@ export function GearCard(props:GearCardPropsI){
               </option>
             })}
           </select>
-          <div className="h-full w-16 flex justify-center items-center relative left-0">
+          <div className="h-full w-full col-span-1 flex items-center justify-end relative left-0">
             <img
               src={"/api/v1/images/icons/stats?name="+Constants.STAT_ENUM[sub.stat].name}
               alt={Constants.STAT_ENUM[sub.stat].name+".png"}
@@ -151,7 +152,7 @@ export function GearCard(props:GearCardPropsI){
             >
               <input
                 type="number"
-                className="h-full w-10 !p-0 bg-transparent border-0 focus:ring-0 text-header text-right"
+                className="h-full w-10 z-10 !p-1 bg-transparent border-0 focus:ring-0 text-header text-right"
                 value={sub.value??minVal}
                 min={minVal}
                 max={maxVal}
@@ -163,6 +164,15 @@ export function GearCard(props:GearCardPropsI){
                 }}
               />
             </Tooltip>
+            {[3,4,5,7,8,9,10,11].includes(sub.stat)
+              ?(<p className="z-0 -ml-3 mr-2">%</p>)
+              :(<p className="z-0 -ml-3 mr-2">{` `}</p>)}
+          </div>
+          <div className="w-full h-3 col-span-3 relative overflow-hidden [&_div]:h-3">
+            <Progress
+              progress={prog}
+              className="w-full h-full bg-bg-2 [&_div]:bg-text rounded-none [&_div]:rounded-none"
+              />
           </div>
         </div>
       })}

@@ -7,10 +7,12 @@ interface GearPagePropsI{
   char:Character;
   gearArr:Gear[];
   setBoth:(c:Character,g:Gear[])=>void;
+  setTheme:(t:string)=>void;
 }
 export function GearPage(props:GearPagePropsI):JSX.Element{
-  const {char, gearArr, setBoth} = props;
+  const {char, gearArr, setBoth,setTheme} = props;
   if(!gearArr||!char.nameNoSpace)return <></>
+  setTheme(Constants.ELEMENT_ENUM[char.element])
   return <PageBG>
     <div className="w-full h-full lg:px-24 py-6 flex">
       {/* Hero Column */}
