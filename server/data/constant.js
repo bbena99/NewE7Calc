@@ -6,7 +6,7 @@ const charList = [
     'class' : 0,
     'sign' : 0,
     'engraveStat':7,
-    'engrave':[5.6,8.4,11.2,14,16.8],
+    'engrave':[0,5.6,8.4,11.2,14,16.8],
     'base_stats':{
       'Attack'  : 789,
       'Defense' : 514,
@@ -25,7 +25,7 @@ const charList = [
     'class' : 1,
     'sign' : 11,
     'engraveStat':4,
-    'engrave':[6,9,12,15,18],
+    'engrave':[0,6,9,12,15,18],
     'base_stats':{
       'Attack'  : 830,
       'Defense' : 713,
@@ -44,7 +44,7 @@ const charList = [
     'class' : 2,
     'sign' : 0,
     'engraveStat':7,
-    'engrave':[4.2,6.3,8.4,10.5,12.6,14.7],
+    'engrave':[0,4.2,6.3,8.4,10.5,12.6,14.7],
     'base_stats':{
       'Attack'  : 1029,
       'Defense' : 473,
@@ -63,7 +63,7 @@ const charList = [
     'class' : 4,
     'sign' : 6,
     'engraveStat':5,
-    'engrave':[6,9,12,15,18],
+    'engrave':[0,6,9,12,15,18],
     'base_stats':{
       'Attack'  : 1039,
       'Defense' : 613,

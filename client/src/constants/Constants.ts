@@ -152,7 +152,8 @@ export class Constants{
     /*11*/ 'Pisces'
   ]
   public static gearCalc=(char:Character,gearArr:Gear[]):Character=>{
-    if(char.name==="")return char
+    if(char.name==="")return char;
+    if(window.localStorage.getItem('artifact'))char.artifact = JSON.parse(window.localStorage.getItem('artifact')??"")
     const stat:number[]=[
       char.base_stats.Attack+char.artifact.Attack,
       char.base_stats.Defense,
@@ -178,6 +179,7 @@ export class Constants{
         stat[sub.stat]+=sub.value??0
       })
     })
+    console.log(stat)
     gearSet.forEach((set,i)=>{
       switch(i){
         case 0:/*'Attack'*/
@@ -219,7 +221,7 @@ export class Constants{
         case 2:
           // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           //@ts-ignore
-          char.gear_stats[key]=Math.round(stat[index]+(stat[index]*stat[index+3]/100));
+          char.gear_stats[key]=Math.floor(stat[index]+(char.base_stats[key]*stat[index+3]/100));
           break;
         default:
           // eslint-disable-next-line @typescript-eslint/ban-ts-comment

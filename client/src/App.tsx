@@ -13,7 +13,9 @@ function App() {
   const [theme,setTheme] = useState(localTheme??constants.THEMES[0]);
   const [charArr,setCharArr] = useState<Character[]>([]);
   const [char,setChar]=useState<Character>();
-  const [gearArr,setGearArr]=useState<Gear[]>(newGearSet());
+  let localGear:Gear[] = newGearSet();
+  if(window.localStorage.getItem('gear'))localGear = JSON.parse(window.localStorage.getItem('gear')??"") as Gear[]
+  const [gearArr,setGearArr]=useState<Gear[]>(localGear);
   if(charArr.length<1)axios.get('/api/v1/characters')
     .then(res=>{
       setCharArr(res.data);
@@ -28,7 +30,15 @@ function App() {
           <Route path="/" element={<PageLayout routes={AppRoutes} theme={theme} setTheme={setTheme}/>}>
             <Route index element={<HomePage/>}/>
             <Route path='/Heroes' element={<HeroPage charArr={charArr}/>}/>
-            <Route path='/Heroes/*' element={<GearPage char={char??newChar()} gearArr={gearArr} setGearArr={setGearArr}/>}/>
+            <Route path='/Heroes/*' element={<GearPage
+              char={char??newChar()}
+              gearArr={gearArr}
+              setBoth={(c:Character,g:Gear[])=>{
+                window.localStorage.setItem('gear',JSON.stringify(g))
+                setGearArr(g);
+                setChar(Constants.gearCalc(c,g))
+              }}
+            />}/>
             <Route path='*' element={<PageNotFound/>}/>
           </Route>
         </Routes>
