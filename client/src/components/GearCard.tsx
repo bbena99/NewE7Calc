@@ -1,4 +1,4 @@
-import { Card } from "flowbite-react";
+import { Card, Tooltip } from "flowbite-react";
 import { Gear } from "../models";
 import { Constants } from "../constants";
 
@@ -8,15 +8,15 @@ interface GearCardPropsI{
 }
 export function GearCard(props:GearCardPropsI){
   const {gear,setGear} = props;
-  return <Card className="w-full h-full bg-bg2 border-bg1 border-4">
+  return <Card className="w-full h-full bg-bg2 border-bg1 border-4 rounded-2xl">
     <h4 className="text-header text-xl underline w-full">
       {Constants.GEAR_TYPE[gear.id]}
     </h4>
-    <div className="w-100 h-8 flex justify-between text-base text-text bg-bg1 rounded-lg p-1">
-      <div className="flex">
-        <p className="w-20">Gear Set:</p>
+    <div className="w-100 h-10 flex justify-between text-base text-text bg-bg1 rounded-lg p-1 border-text border-2">
+      <div className="flex h-full">
+        <p className="w-20 h-full align-middle">Gear Set:</p>
         <img
-          className="w-8 h-8 -mt-1"
+          className="h-full"
           src={"/api/v1/images/icons/gearSets?name="+Constants.GEAR_ENUM[gear.type]}
           alt={Constants.GEAR_ENUM[gear.type]+".png"}
           />
@@ -36,10 +36,10 @@ export function GearCard(props:GearCardPropsI){
           })}
         </select>
       </div>
-      <div className="flex">
-        <p>Level:</p>
+      <div className="flex h-full">
+        <p className="h-full align-middle">Level:</p>
         <select
-          className="bg-bg1 p-0 border-0 text-header hover:cursor-pointer"
+          className="bg-bg1 !pt-0 !p-1 h-full align-middle border-0 text-header hover:cursor-pointer"
           name={"Level_"+gear.id}
           id={"Level_"+gear.id}
           value={gear.level}
@@ -53,7 +53,7 @@ export function GearCard(props:GearCardPropsI){
         </select>
       </div>
     </div>
-    <div className="w-100 h-8 pr-2 flex justify-between text-base text-text bg-bg1 rounded-lg p-1">
+    <div className="w-100 h-10 pr-2 flex justify-between text-base text-text bg-bg1 rounded-lg p-1 border-2 border-text">
       <div className="flex">
         <p className="w-20">Main Stat:</p>
         <select
@@ -67,7 +67,7 @@ export function GearCard(props:GearCardPropsI){
           }}
           >
           {gear.possibleMain.map(stat=>{
-            return <option value={stat} key={"Main_"+stat}>{Constants.STAT_ENUM[stat].name}{}</option>
+            return <option value={stat} key={"Main_"+stat} disabled={gear.subs.findIndex(sub=>sub.stat===stat)>-1}>{Constants.STAT_ENUM[stat].name}{}</option>
           })}
         </select>
       </div>
@@ -83,8 +83,89 @@ export function GearCard(props:GearCardPropsI){
         </p>
       </div>
     </div>
-    <div>
-      
+    <div className="w-full h-36 flex flex-wrap flex-col justify-between">
+      {gear.hits.map((h,i)=>{
+        return <div
+          className="w-10 h-full bg-bg1 rounded-lg border-text border-2"
+          key={gear.id+"_hits_"+i}
+          role="group"
+        >
+          {[0,1,2,3].map(val=>{
+            return <button 
+              key={h+i+val}
+              type="button"
+              disabled={val===h}
+              className=" w-full h-1/4 text-header disabled:bg-text disabled:text-bg1"
+              onClick={()=>{
+                const newGear = {...gear}
+                newGear.hits[i]=val;
+                setGear(newGear)
+              }}
+            >
+              +{(i+1)*3}
+            </button>
+          })}
+        </div>
+      })}
+      {gear.subs.map((sub,index)=>{
+        let mult = 1;
+        gear.hits.forEach(h=>{
+          if(h===index)mult++;
+        })
+        const minVal = Constants.STAT_ENUM[sub.stat].minSub[gear.level]*mult;
+        if(sub.value&&sub.value<minVal)sub.value=minVal
+        const maxVal = Constants.STAT_ENUM[sub.stat].maxSub[gear.level]*mult;
+        if(sub.value&&sub.value>maxVal)sub.value=maxVal
+        return <div
+          key={"sub_"+index}
+          className="h-9 flex justify-between rounded-lg border-2 border-text bg-bg1"
+          style={{width:"calc( 100% - 13rem )"}}
+        >
+          <select
+            name={"gear_"+gear.id+"_sub_"+index}
+            id={"gear_"+gear.id+"_sub_"+index}
+            className="!p-0 bg-transparent border-0 text-header hover:cursor-pointer focus:ring-0"
+            value={sub.stat}
+            onChange={(e)=>{
+              const newGear = {...gear};
+              newGear.subs[index]={stat:+e.target.value,value:Constants.STAT_ENUM[+e.target.value].minSub[gear.level]*mult}
+              setGear(newGear)
+            }}
+          >
+            {gear.possibleSubs.map(psub=>{
+              return <option key={"sub"+psub} value={psub} disabled={gear.subs.findIndex(stat=>stat.stat===psub)>-1||gear.main===psub} className="bg-bg1">
+                {Constants.STAT_ENUM[psub].name}
+              </option>
+            })}
+          </select>
+          <div className="h-full w-16 flex justify-center items-center relative left-0">
+            <img
+              src={"/api/v1/images/icons/stats?name="+Constants.STAT_ENUM[sub.stat].name}
+              alt={Constants.STAT_ENUM[sub.stat].name+".png"}
+              className="h-6 w-6"
+            />
+            <Tooltip
+              content={""+minVal+'-'+maxVal}
+              trigger="click"
+              className="w-16 text-center text-text bg-bg1 [&_div]:bg-bg1"
+            >
+              <input
+                type="number"
+                className="h-full w-10 !p-0 bg-transparent border-0 focus:ring-0 text-header text-right"
+                value={sub.value??minVal}
+                min={minVal}
+                max={maxVal}
+                placeholder={""+minVal+"-"+maxVal}
+                onChange={(e)=>{
+                  const newGear = {...gear};
+                  newGear.subs[index].value = +e.target.value;
+                  setGear(newGear);
+                }}
+              />
+            </Tooltip>
+          </div>
+        </div>
+      })}
     </div>
   </Card>
 }
