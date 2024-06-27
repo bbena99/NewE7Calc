@@ -179,7 +179,6 @@ export class Constants{
         stat[sub.stat]+=sub.value??0
       })
     })
-    console.log(stat)
     gearSet.forEach((set,i)=>{
       switch(i){
         case 0:/*'Attack'*/
