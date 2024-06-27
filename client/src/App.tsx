@@ -27,7 +27,7 @@ function App() {
     <>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<PageLayout routes={AppRoutes} theme={theme} setTheme={setTheme}/>}>
+          <Route path="/" element={<PageLayout routes={AppRoutes} theme={theme} setTheme={(t)=>setTheme(t)}/>}>
             <Route index element={<HomePage/>}/>
             <Route path='/Heroes' element={<HeroPage charArr={charArr}/>}/>
             <Route path='/Heroes/*' element={<GearPage
@@ -38,6 +38,7 @@ function App() {
                 setGearArr(g);
                 setChar(Constants.gearCalc(c,g))
               }}
+              setTheme={(t:string)=>window.localStorage.setItem('theme',t)}
             />}/>
             <Route path='*' element={<PageNotFound/>}/>
           </Route>
