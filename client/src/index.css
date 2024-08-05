@@ -21,14 +21,14 @@
   }
   .Fire {
     --color-bg1: #b91c1c;
-    --color-bg2: #b45309;
-    --color-header: #0a0a0a;
-    --color-text: #450a0a;
-    --color-hover: #f97316;
+    --color-bg2: #7f1d1d;
+    --color-header: #f59e0b;
+    --color-text: #d97706;
+    --color-hover: #fde68a;
     --color-btn: #b45309;
   }
   .Ice {
-    --color-bg1: #1d4ed8;
+    --color-bg1: #0899bd;
     --color-bg2: #22d3ee;
     --color-header: #172554;
     --color-text: #083344;
@@ -37,15 +37,15 @@
   }
   .Earth {
     --color-bg1: #1a2e05;
-    --color-bg2: #4d7c0f;
+    --color-bg2: #3f6212;
     --color-header: #f59e0b;
-    --color-text: #b45309;
-    --color-hover: #1a2e05;
+    --color-text: #d97706;
+    --color-hover: #92400e;
     --color-btn: #365314;
   }
   .Light {
     --color-bg1: #fde047;
-    --color-bg2: #fef3c7;
+    --color-bg2: #fef9c3;
     --color-header: #422006;
     --color-text: #713f12;
     --color-hover: #a16207;
