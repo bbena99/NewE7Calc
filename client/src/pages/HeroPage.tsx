@@ -9,14 +9,15 @@ interface HeroPagePropsI{
 
 export function HeroPage(props:HeroPagePropsI):JSX.Element{
   const {charArr} = props;
-  charArr.sort((a,b)=>a.name.localeCompare(b.name))
+  if(charArr.length<1)return <></>;
+  charArr.sort((a,b)=>{return a.name.localeCompare(b.name)})
   return <PageBG>
     <div className="grid grid-cols-12 gap-4 lg:m-24" style={{overflow:'auto'}}>
 
       {charArr.map((char:Character)=>{
         return <Card
           key={char.nameNoSpace+"_card"}
-          className="bg-bg2 border-bg1 hover:border-hover flex rounded-xl drop-shadow hover:drop-shadow-2xl [&_div]:flex-row [&_div]:justify-start min-w-60 col-span-12 md:col-span-6 lg:col-span-4 xl:col-span-3"
+          className="bg-bg2 border-bg1 hover:border-hover hover:cursor-pointer flex rounded-xl drop-shadow hover:drop-shadow-2xl [&_div]:flex-row [&_div]:justify-start min-w-60 col-span-12 md:col-span-6 lg:col-span-4 xl:col-span-3"
           onClick={()=>{history.pushState({},"","/Heroes/"+char.nameNoSpace);location.reload();}}
         >
           <div className="w-full flex">
